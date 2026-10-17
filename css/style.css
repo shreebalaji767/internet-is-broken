@@ -208,3 +208,26 @@ h1,.hero h1{font-size:clamp(48px,13.7vw,68px);letter-spacing:-.075em;line-height
 .vault-item button{border:1px solid var(--ink);background:var(--pink);width:27px;height:27px;flex-shrink:0;font-size:16px}
 .joke-vault>#joke-clear-vault{margin-top:2px}
 @media(max-width:760px){.joke-lab{grid-template-columns:1fr}.joke-lab-controls{gap:10px}.joke-output-wrap{min-height:220px}.joke-vault-list{grid-template-columns:1fr}.joke-lab-controls .button{width:100%}}
+
+/* Interactive hero missions: repair wizard and panic mini-game */
+.hero-interaction{grid-column:1/-1;position:relative;z-index:4;margin:18px 0 0;border:2px solid var(--ink);background:#fffdf7;box-shadow:7px 7px 0 var(--ink);padding:18px;animation:mission-in .22s ease-out}
+.hero-interaction[hidden]{display:none}
+.hero-interaction.repair-mission{background:var(--lime)}
+.hero-interaction.panic-mission{background:#ffe0f6}
+.hero-mission-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
+.hero-mission-kicker{font:9px var(--mono);letter-spacing:.09em;margin-bottom:7px;display:block}
+.hero-mission-title{font-size:clamp(20px,3vw,30px);line-height:1.05;letter-spacing:-.04em;margin:0}
+.hero-mission-close{width:34px;height:34px;flex-shrink:0;border:1.5px solid var(--ink);background:var(--paper);font-size:20px}
+.hero-mission-copy{font-size:13px;line-height:1.55;max-width:700px;margin:0 0 13px}
+.hero-mission-progress{height:7px;border:1px solid var(--ink);background:#fffdf7;margin:13px 0 15px;overflow:hidden}
+.hero-mission-progress i{display:block;height:100%;width:0;background:var(--violet);transition:width .25s}
+.hero-mission-options{display:flex;gap:8px;flex-wrap:wrap}
+.hero-mission-options .button{flex:1 1 150px;min-height:43px}
+.hero-mission-feedback{font:10px var(--mono);line-height:1.6;margin:12px 0 0;min-height:16px}
+.hero-mission-feedback strong{font-weight:700}
+.hero-mission-stats{display:flex;gap:16px;flex-wrap:wrap;font:9px var(--mono);margin-top:12px}
+.hero-mission-stats span{border:1px solid var(--ink);background:#fffdf7;padding:6px 8px}
+.hero-interaction .button:hover{box-shadow:3px 3px 0 var(--ink)}
+@keyframes mission-in{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:620px){.hero-interaction{padding:13px;box-shadow:4px 4px 0 var(--ink)}.hero-mission-options{display:grid;grid-template-columns:1fr}.hero-mission-options .button{width:100%}.hero-mission-head{margin-bottom:10px}}
+@media(prefers-reduced-motion:reduce){.hero-interaction{animation:none}.hero-mission-progress i{transition:none}}
