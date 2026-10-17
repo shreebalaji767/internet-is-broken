@@ -42,6 +42,14 @@ This is satire, not a real internet monitoring service.
 - Keyboard focus indicators, accessible status messages, and reduced-motion support.
 - No framework, package manager, build step, or third-party runtime dependency. Google Fonts are optional external typography; system font fallbacks are included.
 
+
+### Branding and installable app
+- Custom SVG favicon and standalone logo in `assets/`.
+- Web app manifest defines the app name, theme colors, standalone display mode, and icons.
+- The **INSTALL APP** button uses the browser's install prompt when available and gives device-specific guidance otherwise.
+- A service worker caches the static app shell for repeat visits and basic offline loading.
+- Progressive Web App installation requires HTTPS (GitHub Pages provides HTTPS). Some browsers require a qualifying icon format and may show their own install UI instead of the custom prompt.
+
 ## Run locally
 
 No installation is needed. Open `index.html` in a modern browser.
