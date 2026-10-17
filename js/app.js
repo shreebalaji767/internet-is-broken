@@ -231,6 +231,85 @@ $("#joke-clear-vault").addEventListener("click",()=>{
 });
 renderJokeVault();generateLabJoke();
 
+
+/* Daily Chaos Quest: persistent, browser-only progression tied to existing tools. */
+const questStorageKey="iib-chaos-quest-v1";
+const questDefinitions=[
+ {id:"repair",actionId:"chaos-button",icon:"🛠️",title:"Consult the unqualified technician",description:"Run the 3-step internet repair protocol.",xp:25},
+ {id:"panic",actionId:"panic-button",icon:"🚨",title:"Enter the panic room",description:"Survive a completely fictional emergency.",xp:25},
+ {id:"grass",actionId:"touch-grass-button",icon:"🌱",title:"Grow one pixel of peace",description:"Touch the virtual grass. It misses you.",xp:25},
+ {id:"joke",actionId:"joke-generate",icon:"🧪",title:"Manufacture fresh nonsense",description:"Generate a brand-new Joke Lab case file.",xp:25},
+ {id:"popup",actionId:"spawn-popups",icon:"🪟",title:"Invite chaos to your desktop",description:"Summon the least helpful windows alive.",xp:25}
+];
+function questDateKey(date=new Date()){return date.getFullYear()+"-"+String(date.getMonth()+1).padStart(2,"0")+"-"+String(date.getDate()).padStart(2,"0")}
+function questDayNumber(key){const [y,m,d]=key.split("-").map(Number);return Math.floor(Date.UTC(y,m-1,d)/86400000)}
+function questDailyTasks(day){
+ let seed=day.split("-").reduce((sum,n)=>sum*31+Number(n),7);
+ return questDefinitions.map(item=>({item,sort:((seed=(seed*9301+49297)%233280)+item.id.length*97)%233280})).sort((a,b)=>a.sort-b.sort).slice(0,3).map(entry=>entry.item);
+}
+function readQuestData(){
+ try{const saved=JSON.parse(localStorage.getItem(questStorageKey)||"null");if(saved&&typeof saved==="object")return {date:typeof saved.date==="string"?saved.date:"",tasks:Array.isArray(saved.tasks)?saved.tasks:[],completed:Array.isArray(saved.completed)?saved.completed:[],xp:Math.max(0,Number(saved.xp)||0),streak:Math.max(0,Number(saved.streak)||0),lastCompletedDate:typeof saved.lastCompletedDate==="string"?saved.lastCompletedDate:""};}catch{}
+ return {date:"",tasks:[],completed:[],xp:0,streak:0,lastCompletedDate:""};
+}
+let questData=readQuestData();
+function saveQuestData(){try{localStorage.setItem(questStorageKey,JSON.stringify(questData))}catch{}}
+function syncQuestDay(){
+ const today=questDateKey();
+ if(questData.date!==today){questData.date=today;questData.tasks=questDailyTasks(today).map(task=>task.id);questData.completed=[];saveQuestData()}
+ const validIds=new Set(questDefinitions.map(task=>task.id));
+ questData.tasks=questData.tasks.filter(id=>validIds.has(id));
+ if(questData.tasks.length!==3)questData.tasks=questDailyTasks(today).map(task=>task.id);
+ questData.completed=questData.completed.filter(id=>questData.tasks.includes(id));
+ saveQuestData();
+}
+function questLevel(xp){
+ const levels=[["INTERN",0],["TAB APPRENTICE",100],["BUFFERING BOSS",250],["VIBE ENGINEER",500],["CHAOS LEGEND",900],["THE INTERNET ITSELF",1500]];
+ let current=levels[0],next=null;
+ for(let i=0;i<levels.length;i++){if(xp>=levels[i][1])current=levels[i];else{next=levels[i];break}}
+ return {name:current[0],number:levels.indexOf(current)+1,next};
+}
+function renderQuest(){
+ const list=$("#quest-list");if(!list)return;
+ const tasks=questData.tasks.map(id=>questDefinitions.find(task=>task.id===id)).filter(Boolean);
+ list.replaceChildren();
+ tasks.forEach(task=>{
+  const done=questData.completed.includes(task.id),card=document.createElement("article"),icon=document.createElement("span"),copy=document.createElement("div"),title=document.createElement("h3"),desc=document.createElement("p"),meta=document.createElement("span"),button=document.createElement("button");
+  card.className="quest-item"+(done?" is-complete":"");icon.className="quest-item-icon";icon.textContent=done?"✓":task.icon;
+  copy.className="quest-item-copy";title.textContent=task.title;desc.textContent=task.description;meta.className="quest-reward mono";meta.textContent=done?"QUEST CLEARED":"+"+task.xp+" XP";
+  copy.append(title,desc,meta);button.type="button";button.className="button "+(done?"dark":"outline")+" small quest-launch";button.textContent=done?"COMPLETE ✓":"START QUEST ↗";button.disabled=done;button.dataset.questAction=task.actionId;
+  card.append(icon,copy,button);list.append(card);
+ });
+ const done=questData.completed.length,total=tasks.length,pct=Math.round(done/total*100),level=questLevel(questData.xp);
+ $("#quest-xp").textContent=String(questData.xp).padStart(3,"0");
+ $("#quest-level").textContent="LEVEL "+level.number+" · "+level.name;
+ $("#quest-streak").innerHTML=questData.streak+' <small>day'+(questData.streak===1?"":"s")+"</small>";
+ $("#quest-progress-label").textContent=done+" / "+total+" QUESTS COMPLETE";
+ $("#quest-progress-percent").textContent=pct+"%";$("#quest-progress-bar").style.width=pct+"%";
+ $("#quest-status").textContent=done===total?"DAILY CHAOS COMPLETE. +50 BONUS XP. YOU HAVE PEAKED (TODAY).":done===0?"Three tiny quests. Zero real-world consequences. Probably.":(total-done)+" quest"+(total-done===1?"":"s")+" left. Keep the nonsense rolling.";
+}
+function completeQuest(taskId){
+ if(!questData.tasks.includes(taskId)||questData.completed.includes(taskId))return;
+ const task=questDefinitions.find(item=>item.id===taskId);if(!task)return;
+ questData.completed.push(taskId);questData.xp+=task.xp;
+ const wasComplete=questData.completed.length===questData.tasks.length;
+ if(wasComplete&&questData.lastCompletedDate!==questData.date){
+  const gap=questData.lastCompletedDate?questDayNumber(questData.date)-questDayNumber(questData.lastCompletedDate):0;
+  questData.streak=gap===1?questData.streak+1:1;questData.xp+=50;questData.lastCompletedDate=questData.date;
+ }
+ saveQuestData();renderQuest();
+ if(wasComplete){toast("DAILY QUEST COMPLETE. +50 BONUS XP.");award("Chaos Quest Champion")}
+ else toast("QUEST CLEARED. +"+task.xp+" CHAOS XP.");
+}
+syncQuestDay();renderQuest();
+document.addEventListener("click",event=>{
+ const launch=event.target.closest("[data-quest-action]");
+ if(launch){const target=$("#"+launch.dataset.questAction);if(target&&!launch.disabled)target.click();return}
+ const source=event.target.closest("button[id]");
+ if(!source)return;
+ const task=questDefinitions.find(item=>item.actionId===source.id&&questData.tasks.includes(item.id));
+ if(task)completeQuest(task.id);
+});
+
 // Progressive Web App install + offline shell
 let installPromptEvent=null;
 const installButton=$("#install-app");
