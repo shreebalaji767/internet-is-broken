@@ -30,6 +30,15 @@ For a more realistic local preview, run a static server from the repository fold
 
 The site uses plain HTML, CSS, and JavaScript in separate files, so it needs no build system. If Pages is unavailable, it can be hosted on Netlify, Vercel, or any static host.
 
+## Project structure
+
+    .
+    ├── index.html
+    ├── css/style.css
+    ├── js/app.js
+    ├── .nojekyll
+    └── README.md
+
 ## Important
 
 This is satire. All metrics, diagnostics, headlines, and status indicators are fabricated for entertainment and are not real internet monitoring. The site does not send data to a server. Achievement data is stored locally in the current browser only.
