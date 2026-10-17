@@ -1,4 +1,4 @@
-const CACHE_NAME="internet-is-broken-v3";
+const CACHE_NAME="internet-is-broken-v4";
 const APP_SHELL=[
   "./",
   "./index.html",
