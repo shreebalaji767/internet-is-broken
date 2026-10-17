@@ -366,4 +366,36 @@ $("#reality-toggle")?.addEventListener("click",event=>{
  toast(bent?"REALITY PATCH APPLIED. SIDE EFFECTS ARE A FEATURE.":"REALITY RESTORED. BOOOO, RESPONSIBILITY.");
 });
 
+
+// Router boss fight. The "crash" is only a dismissible visual simulation.
+const bossMax=100;let bossHp=bossMax,bossWon=false;
+const bossTaunts=["“Have you tried turning your expectations off and on again?”","“I am not slow. I am building suspense.”","“Your password is incorrect because I said so.”","“I have 2.4 GHz and 0.0 emotional intelligence.”","“The cloud is just someone else's raccoon.”"];
+const bossLogs=["CRITICAL HIT: router felt that in its ethernet port.","VIBE PACKET DELIVERED. NO REFUNDS.","THE ROUTER HAS REQUESTED TO SPEAK TO YOUR MANAGER.","A SINGLE PIXEL HAS BEEN DEFEATED. CELEBRATIONS ARE PREMATURE.","NETWORK GOBLIN DETECTED. PLEASE OFFER IT A CRACKER."];
+function paintBoss(){
+ $("#boss-hp").style.width=Math.max(0,bossHp)+"%";$("#boss-hp-label").textContent=Math.max(0,bossHp)+" / 100";
+ $("#boss-attack").disabled=bossWon;$("#boss-heal").disabled=bossWon;
+ $("#boss-reset").hidden=!bossWon;
+ if(bossWon){$("#boss-name").textContent="ROUTER DEFEATED (TEMPORARILY)";$("#boss-taunt").textContent="The router has been unplugged emotionally. It will return after a firmware update.";$("#boss-log").textContent="ACHIEVEMENT UNLOCKED: YOU HAVE DEFEATED THE INTERNET'S LANDLORD.";award("Router Whisperer");}
+}
+$("#boss-attack")?.addEventListener("click",()=>{
+ if(bossWon)return;bossHp=Math.max(0,bossHp-(12+Math.floor(Math.random()*20)));
+ $("#boss-taunt").textContent=bossTaunts[Math.floor(Math.random()*bossTaunts.length)];
+ $("#boss-log").textContent=bossLogs[Math.floor(Math.random()*bossLogs.length)];
+ $("#boss-art").classList.remove("is-hit");void $("#boss-art").offsetWidth;$("#boss-art").classList.add("is-hit");
+ paintBoss();if(!bossWon)toast("VIBE DEPLOYED. DAMAGE IS MOSTLY EMOTIONAL.");
+});
+$("#boss-heal")?.addEventListener("click",()=>{
+ if(bossWon)return;bossHp=Math.min(100,bossHp+20);$("#boss-taunt").textContent="“HAHA. FREE CUSTOMER SUPPORT.”";$("#boss-log").textContent="YOU HEALED THE BOSS. HUMANITY HAS QUESTIONS.";paintBoss();
+});
+$("#boss-reset")?.addEventListener("click",()=>{bossHp=100;bossWon=false;$("#boss-name").textContent="THE ROUTER OF DOOM";$("#boss-taunt").textContent=bossTaunts[0];$("#boss-log").textContent="BATTLE RULES: CLICK THE VIBES. REALITY WILL REMAIN MOSTLY INTACT.";paintBoss();});
+const bsod=$("#fake-bsod-overlay");
+$("#fake-bsod")?.addEventListener("click",()=>{bsod.hidden=false;$("#bsod-recover").focus();});
+$("#bsod-recover")?.addEventListener("click",()=>{bsod.hidden=true;toast("REALITY RESTORED. NO COMPUTERS WERE EMOTIONALLY BLUE-SCREENED.");award("Survived the Fake Crash");});
+document.addEventListener("keydown",event=>{if(event.key==="Escape"&&bsod&&!bsod.hidden){bsod.hidden=true;toast("ESCAPE SUCCESSFUL. WINDOWS-ISH HAS STOPPED BEING DRAMATIC.");}});
+let logoClicks=0,logoReset;
+document.querySelector(".brand-logo")?.addEventListener("click",event=>{
+ logoClicks++;window.clearTimeout(logoReset);logoReset=window.setTimeout(()=>logoClicks=0,1800);
+ if(logoClicks>=5){logoClicks=0;event.preventDefault();$("#router-boss").scrollIntoView({behavior:"smooth"});toast("SECRET ROUTER BOSS UNLOCKED. IT KNOWS WHAT YOU DID.");award("Router Summoner");}
+});
+
 })();
