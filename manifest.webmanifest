@@ -1,0 +1,26 @@
+{
+  "id": "/internet-is-broken/",
+  "name": "The Internet Is Broken™",
+  "short_name": "Internet Broken",
+  "description": "A chaotic, fictional internet status dashboard. Fake diagnostics, real internet feelings.",
+  "start_url": "/internet-is-broken/",
+  "scope": "/internet-is-broken/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f5f3ec",
+  "theme_color": "#171717",
+  "icons": [
+    {
+      "src": "assets/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
