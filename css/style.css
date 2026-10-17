@@ -231,3 +231,33 @@ h1,.hero h1{font-size:clamp(48px,13.7vw,68px);letter-spacing:-.075em;line-height
 @keyframes mission-in{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:620px){.hero-interaction{padding:13px;box-shadow:4px 4px 0 var(--ink)}.hero-mission-options{display:grid;grid-template-columns:1fr}.hero-mission-options .button{width:100%}.hero-mission-head{margin-bottom:10px}}
 @media(prefers-reduced-motion:reduce){.hero-interaction{animation:none}.hero-mission-progress i{transition:none}}
+
+
+/* Daily Chaos Quest progression board */
+.quest-board{border:1.5px solid var(--ink);background:#fffdf7;padding:16px}
+.quest-overview{display:grid;grid-template-columns:minmax(130px,.7fr) minmax(130px,.7fr) minmax(220px,1.5fr);gap:10px;margin-bottom:12px}
+.quest-overview>div{border:1px solid var(--ink);padding:14px;min-width:0;display:flex;flex-direction:column;gap:7px}
+.quest-overview>div:first-child{background:var(--lime)}
+.quest-overview>div:nth-child(2){background:#e9e5ff}
+.quest-overview .tiny{font-size:8px;letter-spacing:.07em;line-height:1.5}
+.quest-overview strong{font-size:clamp(27px,4vw,42px);line-height:1;letter-spacing:-.06em}
+.quest-overview strong small{font:10px var(--mono);letter-spacing:0}
+.quest-progress-wrap{justify-content:center}
+.quest-progress-label{display:flex;justify-content:space-between;gap:8px;font-size:8px}
+.quest-progress{height:9px;border:1px solid var(--ink);background:#f5f3ec;overflow:hidden}
+.quest-progress i{display:block;height:100%;width:0;background:var(--pink);transition:width .25s}
+#quest-status{font-size:11px;line-height:1.45;margin:0;color:#55534f}
+.quest-list{display:grid;gap:8px}
+.quest-item{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:13px;align-items:center;padding:13px;border:1px solid var(--ink);background:var(--paper);min-width:0}
+.quest-item.is-complete{background:#e4ffd7}
+.quest-item-icon{width:42px;height:42px;display:grid;place-items:center;background:#fffdf7;border:1px solid var(--ink);font-size:20px}
+.quest-item-copy{min-width:0}
+.quest-item-copy h3{font-size:14px;line-height:1.25;margin:0 0 4px}
+.quest-item-copy p{font-size:11px;line-height:1.45;color:#5e5b53;margin:0 0 6px}
+.quest-reward{font-size:8px;color:#6253b9;letter-spacing:.05em}
+.quest-launch{min-width:130px;min-height:38px}
+.quest-launch:disabled{opacity:.9}
+.quest-board>.disclaimer{margin:14px 0 0;font-size:8px;line-height:1.5}
+@media(max-width:760px){.quest-overview{grid-template-columns:repeat(2,minmax(0,1fr))}.quest-progress-wrap{grid-column:1/-1}.quest-item{grid-template-columns:38px minmax(0,1fr)}.quest-item-icon{width:36px;height:36px}.quest-launch{grid-column:2;width:100%;min-width:0}}
+@media(max-width:400px){.quest-board{padding:9px}.quest-overview>div{padding:10px}.quest-item{gap:9px;padding:10px}.quest-item-copy h3{font-size:12px}.quest-item-copy p{font-size:10px}}
+@media(prefers-reduced-motion:reduce){.quest-progress i{transition:none}}
