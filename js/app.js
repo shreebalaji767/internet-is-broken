@@ -5,7 +5,7 @@ try{shownJokes=new Set(JSON.parse(localStorage.getItem(jokeHistoryKey)||"[]"))}c
 function jokeKey(item){return String(Array.isArray(item)?item.filter((part)=>typeof part==="string").join(" "):item).toLowerCase().replace(/[^a-z0-9]+/g," ").trim()}
 function pickFresh(items,keyOf=jokeKey){
  let fresh=items.filter(item=>!shownJokes.has(keyOf(item)));
- if(!fresh.length){shownJokes.clear();fresh=items}
+ if(!fresh.length){const repeat=items[Math.floor(Math.random()*items.length)];shownJokes.delete(keyOf(repeat));fresh=[repeat]}
  const item=fresh[Math.floor(Math.random()*fresh.length)];
  shownJokes.add(keyOf(item));
  try{localStorage.setItem(jokeHistoryKey,JSON.stringify([...shownJokes].slice(-300)))}catch{}
