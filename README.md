@@ -20,7 +20,7 @@ This is satire, not a real internet monitoring service.
 - **Fake terminal:** timestamped, rotating diagnostics with intentionally unhelpful results.
 
 ### Meme factory and shareable report
-- **Meme Factory™:** rotate through reaction-meme captions and copy the text to your clipboard.
+- **Meme Factory™:** customize top and bottom captions, choose a background theme, randomize meme templates, copy caption text, and export a shareable PNG image directly in your browser.
 - **Daily Doom Scroll:** cycle through fake breaking-news stories.
 - **Copy Status:** create a text report containing your current fictional metrics, incident count, grass score, headline, and site URL.
 - **Share the Chaos:** use your device's native share sheet when available, with a clipboard fallback.
