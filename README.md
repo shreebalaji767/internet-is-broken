@@ -1,46 +1,99 @@
 # The Internet Is Broken™ 🫠
 
-A chaotic, interactive parody dashboard for the state of being online. It reports absolutely fake metrics, offers deeply unqualified troubleshooting, creates reaction memes, summons nostalgic pop-ups, and gently asks you to touch virtual grass.
+> A chaotic, interactive parody dashboard for the state of being online. Fake diagnostics, real internet feelings.
 
-**GitHub Pages URL after publishing:** https://shreebalaji767.github.io/internet-is-broken/
+**Live site:** https://shreebalaji767.github.io/internet-is-broken/  
+**Repository:** https://github.com/shreebalaji767/internet-is-broken
+
+## What is this?
+
+The Internet Is Broken™ is a deliberately unhelpful, meme-powered internet panic room. Click the button that promises to fix the internet; watch fictional metrics spiral; summon early-2000s desktop pop-ups; make reaction memes; grow virtual grass; and share your entirely fictional status report.
+
+This is satire, not a real internet monitoring service.
 
 ## Features
 
-- **Fix the Internet:** every click makes fictional status metrics worse and appends a fake terminal log.
-- **Panic button + Popup Hell:** summon retro desktop pop-ups, close them individually, or press Esc to clear them.
-- **Meme Factory:** generate reaction templates and copy the meme text.
-- **Touch Grass mini-game:** click the button or the illustrated field to grow a tiny virtual garden.
-- **Daily Doom Scroll:** refresh rotating fake breaking-news headlines.
-- **Easter eggs:** type ? for a secret message or enter the Konami code (↑ ↑ ↓ ↓ ← → ← → B A).
-- **Achievements:** milestones are saved locally in your browser with localStorage.
-- Responsive layout, keyboard focus styles, reduced-motion support, and no build step.
+### Chaos dashboard
+- **Fix the Internet / Make It Worse:** trigger random incidents, worsen fictional metrics, add fake diagnostic terminal logs, and occasionally summon pop-ups.
+- **Fictional live-ish metrics:** vibes, open tabs, attention span, and grass-touch probability react to your chaos.
+- **Panic protocol + Popup Hell:** summon retro desktop pop-ups and dismiss them individually; press **Esc** to clear the popup layer.
+- **Fake terminal:** timestamped, rotating diagnostics with intentionally unhelpful results.
+
+### Meme factory and shareable report
+- **Meme Factory™:** rotate through reaction-meme captions and copy the text to your clipboard.
+- **Daily Doom Scroll:** cycle through fake breaking-news stories.
+- **Copy Status:** create a text report containing your current fictional metrics, incident count, grass score, headline, and site URL.
+- **Share the Chaos:** use your device's native share sheet when available, with a clipboard fallback.
+- **Social preview metadata:** Open Graph tags provide a title and description in supported link previews.
+
+### Touch Grass mini-game
+- Click the grass button or illustrated field to grow a tiny virtual garden.
+- Watch your fictional inner-peace score and grass-touch stats increase.
+- The field is keyboard-accessible with **Enter** or **Space**.
+
+### Secrets and achievements
+- Type **?** for a secret message.
+- Enter the **Konami code**: ↑ ↑ ↓ ↓ ← → ← → B A.
+- Unlock nonsense achievements for chaos, pop-ups, virtual gardening, and sharing. Achievement progress is stored in this browser with `localStorage`.
+
+### Design and accessibility
+- Responsive desktop, tablet, and mobile layouts.
+- Acid-lime, hot-pink, electric-violet, and near-black visual system.
+- Keyboard focus indicators, accessible status messages, and reduced-motion support.
+- No framework, package manager, build step, or third-party runtime dependency. Google Fonts are optional external typography; system font fallbacks are included.
 
 ## Run locally
 
-No installation, package manager, build command, or server is required. Open index.html in a modern browser.
+No installation is needed. Open `index.html` in a modern browser.
 
-For a more realistic local preview, run a static server from the repository folder (optional), e.g. python -m http.server 8000, then visit http://localhost:8000.
+For a more realistic local preview, run a static server from the repository root:
 
-## Enable GitHub Pages
+```sh
+python -m http.server 8000
+```
 
-1. Open **Settings → Pages** in this repository.
-2. Under **Build and deployment**, choose **Deploy from a branch**.
-3. Choose branch **main** and folder **/(root)**, then save.
-4. Wait for GitHub Pages to finish publishing. The site URL should be https://shreebalaji767.github.io/internet-is-broken/.
+Then open http://localhost:8000.
 
-The site uses plain HTML, CSS, and JavaScript in separate files, so it needs no build system. If Pages is unavailable, it can be hosted on Netlify, Vercel, or any static host.
+## Publish with GitHub Pages
+
+The workflow at `.github/workflows/pages.yml` deploys the repository root when code is pushed to `main`.
+
+1. Open [Repository Settings → Pages](https://github.com/shreebalaji767/internet-is-broken/settings/pages).
+2. If prompted, select **GitHub Actions** as the build and deployment source.
+3. Open the [Actions tab](https://github.com/shreebalaji767/internet-is-broken/actions) and check the latest **Deploy static site to GitHub Pages** run.
+4. Once deployment succeeds, visit https://shreebalaji767.github.io/internet-is-broken/.
+
+If Pages has never been enabled, a repository administrator may need to enable it or approve the first deployment in Settings. A committed workflow alone does not guarantee that Pages is already live.
 
 ## Project structure
 
-    .
-    ├── index.html
-    ├── css/style.css
-    ├── js/app.js
-    ├── .nojekyll
-    └── README.md
+```text
+.
+├── .github/
+│   └── workflows/
+│       └── pages.yml       # GitHub Actions Pages deployment
+├── assets/
+│   └── favicon.svg         # Custom site icon
+├── css/
+│   └── style.css           # Responsive styles and animations
+├── js/
+│   └── app.js              # Chaos, pop-ups, memes, game, sharing, secrets
+├── .nojekyll
+├── index.html
+└── README.md
+```
 
-## Important
+## Privacy and fictional data
 
-This is satire. All metrics, diagnostics, headlines, and status indicators are fabricated for entertainment and are not real internet monitoring. The site does not send data to a server. Achievement data is stored locally in the current browser only.
+- All metrics, diagnostics, headlines, and status indicators are fabricated for entertainment.
+- The website does not send metrics to a backend or call an internet-status API.
+- Achievement names are stored in local browser storage on the current device.
+- Sharing and copy controls only pass text to your browser/device's share or clipboard feature when you activate them.
 
-Made with 0% useful diagnostics and 100% internet feelings.
+## License
+
+No license has been specified yet. Add a `LICENSE` file if you want to explicitly grant reuse permissions.
+
+---
+
+Made with 0% useful diagnostics and 100% internet feelings. 🫠
