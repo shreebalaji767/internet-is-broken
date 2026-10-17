@@ -138,6 +138,52 @@ $("#focus-start").addEventListener("click",startFocus);
 $("#focus-reset").addEventListener("click",resetFocus);
 renderQuiz();updateFocusClock();
 
+
+/* Joke Lab: local template engine, unique case IDs, and browser-only favourites. */
+const jokeLabStorageKey="iib-joke-vault-v1";
+let jokeLabVisitCount=0,currentLabJoke="";
+function labPick(key,n,offset=0){const list=jokeBits[key]||[];return list.length?list[Math.abs(n*7+offset*13+Math.floor(n/list.length)*3)%list.length]:"the internet";}
+function generateLabJoke(){
+ const category=$("#joke-category").value,n=nextJokeIndex();jokeLabVisitCount++;
+ let joke="";
+ if(category==="tech")joke=labPick("tech",n,1)+" "+labPick("techAction",n,2)+". "+labPick("techTwist",n,3);
+ else if(category==="office")joke=labPick("subject",n,1)+" "+labPick("action",n,2)+" "+labPick("object",n,3)+". "+labPick("twist",n,4);
+ else if(category==="excuse")joke=labPick("excuse",n,1)+" "+labPick("excuseThing",n,2)+" "+labPick("excuseEvent",n,3)+".";
+ else if(category==="meme")joke=labPick("memeA",n,1)+"\n"+labPick("memeB",n,2)+"\n"+labPick("twist",n,3);
+ else joke=labPick("subject",n,2)+" "+labPick("action",n,5)+" "+labPick("object",n,8)+". "+labPick("twist",n,11);
+ currentLabJoke=joke+"\n\n— JOKE LAB CASE #"+String(n).padStart(6,"0");
+ rememberJoke(currentLabJoke,jokeKey);
+ $("#joke-output").textContent=currentLabJoke;
+ $("#joke-case").textContent="CASE FILE #"+String(n).padStart(6,"0");
+ $("#joke-count").textContent=jokeLabVisitCount+" JOKE"+(jokeLabVisitCount===1?"":"S")+" MADE THIS VISIT";
+ $("#joke-feedback").textContent="Fresh output generated locally. No network request made.";
+ $("#joke-save").textContent="SAVE TO MY VAULT ♡";
+}
+function readJokeVault(){try{const value=JSON.parse(localStorage.getItem(jokeLabStorageKey)||"[]");return Array.isArray(value)?value.filter(x=>typeof x==="string"):[]}catch{return []}}
+function renderJokeVault(){
+ const list=$("#joke-vault-list"),saved=readJokeVault();$("#vault-count").textContent=saved.length+" SAVED";list.replaceChildren();
+ if(!saved.length){const empty=document.createElement("p");empty.className="vault-empty";empty.textContent="Nothing saved yet. Be the first curator of nonsense.";list.append(empty);return}
+ saved.slice().reverse().forEach((joke,reverseIndex)=>{
+  const originalIndex=saved.length-1-reverseIndex,card=document.createElement("article"),p=document.createElement("p"),remove=document.createElement("button");
+  card.className="vault-item";p.textContent=joke;remove.type="button";remove.textContent="×";remove.setAttribute("aria-label","Remove saved joke");
+  remove.addEventListener("click",()=>{const latest=readJokeVault();latest.splice(originalIndex,1);try{localStorage.setItem(jokeLabStorageKey,JSON.stringify(latest))}catch{}renderJokeVault()});
+  card.append(p,remove);list.append(card);
+ });
+}
+$("#joke-generate").addEventListener("click",generateLabJoke);
+$("#joke-copy").addEventListener("click",async()=>{const ok=await copyText(currentLabJoke);$("#joke-feedback").textContent=ok?"Copied. Release this nonsense into the wild.":"Clipboard blocked by browser. You can still select and copy the text."});
+$("#joke-save").addEventListener("click",()=>{
+ if(!currentLabJoke)return;
+ const saved=readJokeVault();if(saved.includes(currentLabJoke)){toast("THIS ONE IS ALREADY IN YOUR VAULT.");return}
+ saved.push(currentLabJoke);try{localStorage.setItem(jokeLabStorageKey,JSON.stringify(saved));renderJokeVault();$("#joke-save").textContent="SAVED TO VAULT ✓";$("#joke-feedback").textContent="Saved on this device only."}catch{$("#joke-feedback").textContent="Storage is unavailable. Your joke is still on screen."}
+});
+$("#joke-clear-vault").addEventListener("click",()=>{
+ if(!readJokeVault().length){toast("THE VAULT IS ALREADY EMPTY.");return}
+ try{localStorage.removeItem(jokeLabStorageKey)}catch{}
+ renderJokeVault();toast("SAVED JOKES CLEARED FROM THIS DEVICE.");
+});
+renderJokeVault();generateLabJoke();
+
 // Progressive Web App install + offline shell
 let installPromptEvent=null;
 const installButton=$("#install-app");
