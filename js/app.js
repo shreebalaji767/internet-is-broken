@@ -320,4 +320,50 @@ installButton?.addEventListener("click",async()=>{if(installPromptEvent){install
 updateInstallButton();
 if("serviceWorker" in navigator && (location.protocol==="https:"||location.hostname==="localhost")){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}
 
+
+// Cursed Decision Engine: five rounds of escalating administrative nonsense.
+const cursedScenarios=[
+ {q:"Your router has requested a performance review. You are the manager now.",c:"Choose carefully. The consequences are legally fictional.",o:[["Promote it to middle management",8,"It schedules 14 meetings and buffers through every single one."],["Ask it to explain its feelings",18,"The router says “it's not you” and disconnects from the family plan."],["Replace it with a suspicious potato",34,"The potato achieves 2 bars of Wi-Fi and immediately demands equity."]]},
+ {q:"A CAPTCHA asks you to identify every image containing emotional damage.",c:"The squares are getting personal.",o:[["Select all squares containing Mondays",12,"Correct. The CAPTCHA sighs and lets you through."],["Click the tiny traffic cone for moral support",25,"The cone is now your emergency contact."],["Challenge the CAPTCHA to a duel",38,"You lose to a bicycle. It was not even in the images."]]},
+ {q:"The cloud has fallen out of the sky and landed in your kitchen.",c:"It is dripping on the router and asking for rent.",o:[["Offer it a tiny umbrella",10,"The cloud leaves a five-star review of your hospitality."],["Put it in rice",28,"The rice becomes weather. The kitchen is now a climate."],["Ask it to hold your browser tabs",40,"It rains 87 open tabs. One is playing music. Nobody knows which."]]},
+ {q:"A raccoon has become your new IT administrator.",c:"It has already eaten the password policy.",o:[["Give it a laminated checklist",14,"It eats the checklist, but remembers the vibes."],["Let it deploy directly to production",42,"Production is now a dumpster with excellent uptime."],["Ask it to reset your password",24,"Your new password is three acorns and a mysterious scream."]]},
+ {q:"The internet offers you one wish, but terms and conditions apply.",c:"Page 4,091 contains a drawing of a horse.",o:[["Unlimited snacks, but every chip is a USB",18,"Crunchy, incompatible, and somehow still your fault."],["All tabs close, except one haunted tab",30,"It whispers “you forgot something” until the heat death of the universe."],["Make the internet normal again",50,"REQUEST DENIED: NORMALITY IS A PREMIUM FEATURE."]]}
+];
+let cursedRound=0,cursedScore=0,raccoons=0;
+const cursedQuestion=$("#cursed-question"),cursedContext=$("#cursed-context"),cursedOptions=$("#cursed-options"),cursedFeedback=$("#cursed-feedback"),cursedRestart=$("#cursed-restart");
+function renderCursedGame(){
+ const finished=cursedRound>=cursedScenarios.length;
+ $("#cursed-round").textContent=finished?"AUDIT COMPLETE":("ROUND "+(cursedRound+1)+" / "+cursedScenarios.length);
+ $("#cursed-score").textContent=Math.min(100,cursedScore)+"%";
+ $("#cursed-meter-fill").style.width=Math.min(100,cursedScore)+"%";
+ if(finished){
+  const ending=cursedScore<75?["PROBATIONARY CHAOS INTERN","You caused only a medium-sized incident. The potato has been promoted over you."]:cursedScore<125?["CERTIFIED PROBLEM GOBLIN","Reality has filed a complaint. You have been given a novelty mug and no responsibilities."]:["SUPREME MINISTER OF NONSENSE","The internet has resigned. A raccoon is now in charge of your pension."];
+  cursedQuestion.textContent=ending[0];cursedContext.textContent=ending[1];cursedOptions.innerHTML="";cursedFeedback.textContent="FINAL CHAOS LIABILITY: "+Math.min(100,cursedScore)+"%. YOUR REPORT HAS BEEN MAILED TO THE MOON.";cursedRestart.hidden=false;award("Licensed Reality Menace");return;
+ }
+ const scenario=cursedScenarios[cursedRound];cursedQuestion.textContent=scenario.q;cursedContext.textContent=scenario.c;
+ cursedOptions.innerHTML=scenario.o.map((option,index)=>'<button type="button" class="button outline cursed-option" data-choice="'+index+'">'+option[0]+'</button>').join("");
+ cursedFeedback.textContent="YOUR DECISIONS WILL BE JUDGED BY A VERY SMALL OWL.";cursedRestart.hidden=true;
+}
+cursedOptions?.addEventListener("click",event=>{
+ const button=event.target.closest("[data-choice]");if(!button||cursedRound>=cursedScenarios.length)return;
+ const option=cursedScenarios[cursedRound].o[Number(button.dataset.choice)];if(!option)return;
+ cursedScore+=option[1];cursedRound++;cursedFeedback.textContent="OFFICIAL FINDING: "+option[2];
+ renderCursedGame();if(cursedRound<cursedScenarios.length)cursedFeedback.textContent="OFFICIAL FINDING: "+option[2];
+});
+cursedRestart?.addEventListener("click",()=>{cursedRound=0;cursedScore=0;renderCursedGame();});
+renderCursedGame();
+$("#summon-raccoon")?.addEventListener("click",()=>{
+ if(raccoons>=12){toast("THE RACCOON UNION HAS FROZEN HIRING.");return}
+ raccoons++;const critter=document.createElement("span");critter.className="raccoon";critter.textContent=["🦝","🦝","🦝","🥷🦝"][Math.floor(Math.random()*4)];critter.title="Unqualified. Enthusiastic.";$("#raccoon-cage").appendChild(critter);
+ $("#raccoon-count").textContent="RACCOONS ON PAYROLL: "+raccoons;
+ if(raccoons===5)toast("FIVE RACCOONS. THAT IS A DEPARTMENT NOW.");
+ if(raccoons===12)toast("HIRING FREEZE. THE RACCOONS HAVE FORMED A UNION.");
+});
+$("#reality-toggle")?.addEventListener("click",event=>{
+ const bent=document.body.classList.toggle("reality-bent");event.currentTarget.setAttribute("aria-pressed",String(bent));
+ event.currentTarget.textContent=bent?"RESTORE BORING REALITY ↶":"BEND REALITY ↝";
+ $("#reality-status").textContent=bent?"REALITY BENT. YOUR TAXES ARE NOW PAID IN VIBES.":"Reality is currently held together by one paperclip.";
+ toast(bent?"REALITY PATCH APPLIED. SIDE EFFECTS ARE A FEATURE.":"REALITY RESTORED. BOOOO, RESPONSIBILITY.");
+});
+
 })();
