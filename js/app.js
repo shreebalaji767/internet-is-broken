@@ -24,14 +24,14 @@ function makeGeneratedJoke(kind){
  for(let attempt=0;attempt<200;attempt++){
   const n=nextJokeIndex(),pick=(key,offset=0)=>jokeBits[key][Math.abs((n*7+offset*13+Math.floor(n/(jokeBits[key].length||1))*3))%jokeBits[key].length];
   let item;
-  if(kind==="reports")item=[pick("subject",1)+" "+pick("action",2)+" "+pick("object",3)+".",pick("twist",4)+" "+pick("twist",7)];
-  else if(kind==="excuses")item=pick("excuse",1)+" "+pick("excuseThing",2)+" "+pick("excuseEvent",3)+".";
-  else if(kind==="memes")item=[pick("memeA",1),pick("memeB",2),"🤹","🗃️","A situation that has clearly hired a consultant."];
-  else if(kind==="logs")item=["[INFO]",pick("tech",1)+" "+pick("techAction",2)+". "+pick("techTwist",3)];
-  else if(kind==="incidents")item=["🪄",pick("tech",1)+" "+pick("techAction",2)+".",pick("techTwist",3)];
-  else if(kind==="popups")item=["UNEXPECTED UPDATE",pick("subject",1)+" "+pick("action",2)+" "+pick("object",3)+". "+pick("twist",4)];
-  else if(kind==="grass")item=pick("subject",1)+" "+pick("action",2)+" "+pick("object",3)+". Take a breath; the world has not requested a status report.";
-  else item=pick("subject",1)+" "+pick("action",2)+" "+pick("object",3)+". "+pick("twist",4);
+  if(kind==="reports")item=[pick("subject",1)+" "+pick("action",2)+" "+pick("object",3)+".",pick("twist",4)+" "+pick("twist",7)+" Archive reference "+n+"; nobody knows the filing system."];
+  else if(kind==="excuses")item=pick("excuse",1)+" "+pick("excuseThing",2)+" "+pick("excuseEvent",3)+". Excuse file "+n+" has been opened for absolutely no reason.";
+  else if(kind==="memes")item=[pick("memeA",1),pick("memeB",2),"🤹","🗃️","A situation that has clearly hired a consultant. Case file "+n+"."];
+  else if(kind==="logs")item=["[INFO]",pick("tech",1)+" "+pick("techAction",2)+". "+pick("techTwist",3)+" Diagnostic ticket "+n+"."];
+  else if(kind==="incidents")item=["🪄",pick("tech",1)+" "+pick("techAction",2)+".",pick("techTwist",3)+" Incident record "+n+"."];
+  else if(kind==="popups")item=["UNEXPECTED UPDATE",pick("subject",1)+" "+pick("action",2)+" "+pick("object",3)+". "+pick("twist",4)+" Reference number "+n+"."];
+  else if(kind==="grass")item=pick("subject",1)+" "+pick("action",2)+" "+pick("object",3)+". Take a breath; the world has not requested a status report. Field note "+n+". ";
+  else item=pick("subject",1)+" "+pick("action",2)+" "+pick("object",3)+". "+pick("twist",4)+" Archive note "+n+".";
   if(!hasSeenJoke(item,jokeKey)){rememberJoke(item,jokeKey);return item}
  }
  return null;
