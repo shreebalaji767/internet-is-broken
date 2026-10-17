@@ -28,7 +28,7 @@ For a more realistic local preview, run a static server from the repository fold
 3. Choose branch **main** and folder **/(root)**, then save.
 4. Wait for GitHub Pages to finish publishing. The site URL should be https://shreebalaji767.github.io/internet-is-broken/.
 
-The site is a single static HTML file with inline CSS and JavaScript, so it needs no build system. If Pages is unavailable, it can be hosted on Netlify, Vercel, or any static host.
+The site uses plain HTML, CSS, and JavaScript in separate files, so it needs no build system. If Pages is unavailable, it can be hosted on Netlify, Vercel, or any static host.
 
 ## Important
 
